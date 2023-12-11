@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -124,3 +125,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+NAVER_API_KEY_ID = os.environ["NAVER_API_KEY_ID"]
+NAVER_API_KEY = os.environ["NAVER_API_KEY"]
+
+EVCHARGE_API_KEY = os.environ["EVCHARGE_API_KEY"]
