@@ -23,6 +23,7 @@ class StationView(APIView):
             
             # Address to MetroCd/CityCd
             codes = evcharge_api.get_code()['data']
+            metroNm = str(metroNm).replace('특별자치','')
             filtered_data = next(item for item in codes if item['uppoCdNm'] == metroNm and item['codeNm'] == cityNm)
             metroCd = filtered_data['uppoCd']
             cityCd = filtered_data['code']
@@ -41,7 +42,8 @@ class StationView(APIView):
                 if not coords_json['addresses']:
                     short_address = " ".join(address.split()[:3])
                     coords_json = naver_api.geocoding(short_address, coordinate)
-                
+                    if not coords_json['addresses']:
+                        continue
                 evcharge['x'] = coords_json['addresses'][0]['x']
                 evcharge['y'] = coords_json['addresses'][0]['y']
                 evcharge['distance'] = coords_json['addresses'][0]['distance']

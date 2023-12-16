@@ -34,3 +34,19 @@ class LogoutView(APIView):
     def post(self, request):
         logout(request=request)
         return Response({"message":"logout successful"}, status=status.HTTP_200_OK)
+
+class UserInfoView(APIView):
+    def get(self, request):
+        user = request.user
+        if user.is_authenticated:
+            return Response({"message": f"{user.username} is logged in"})
+        return Response({"message": "Session expired or not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    @transaction.atomic
+    def delete(self, request):
+        user = request.user
+        if user.is_authenticated:
+            user.delete()
+            return Response({"message": "User is unregistered successfully"}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"error": "User has no authorization"}, status=status.HTTP_401_UNAUTHORIZED)
+    
